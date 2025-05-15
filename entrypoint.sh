@@ -40,4 +40,4 @@ PARSED=$(echo "$STARTUP" | sed -e 's/{{/${/g' -e 's/}}/}/g')
 printf "\033[1m\033[33mcontainer@pelican~ \033[0m"
 echo "$PARSED"
 # shellcheck disable=SC2086
-eval "$PARSED"
+exec script -q -c "$PARSED" /dev/null

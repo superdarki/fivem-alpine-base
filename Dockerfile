@@ -21,7 +21,7 @@ RUN     curl --http1.1 -sLo /etc/apk/keys/peachypies@protonmail.ch-5adb3818.rsa.
         apk --no-cache update
 
 RUN     apk del curl &&\
-        apk add --no-cache tini curl=7.72.0-r99 libssl1.1 libcrypto1.1 libunwind libstdc++ zlib c-ares v8~=9.3 musl-dbg libatomic
+        apk add --no-cache tini util-linux curl=7.72.0-r99 libssl1.1 libcrypto1.1 libunwind libstdc++ zlib c-ares v8~=9.3 musl-dbg libatomic
 
 USER        container
 ENV         USER=container HOME=/home/container
