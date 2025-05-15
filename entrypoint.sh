@@ -13,22 +13,29 @@ export INTERNAL_IP
 # Switch to the container's working directory
 cd /home/container || exit 1
 
-# Convert all of the "{{VARIABLE}}" parts of the command into shell variable format
+# Convert all of the "{{VARIABLE}}" parts of the command into their values
 PARSED=$(eval echo "$(echo "$STARTUP" | sed -e 's/{{/${/g' -e 's/}}/}/g')")
-
-# Debug the parsed command
-echo -e "\033[1m\033[33mcontainer@pelican~ \033[0m$PARSED"
+echo -e "Running start command: $PARSED"
 
 # Create FIFO if it doesn't exist
 FIFO=/tmp/console.pipe
 [ -p "$FIFO" ] || mkfifo "$FIFO"
 
-# Start the server with redirected input from the FIFO
-# Use tail -f to keep reading from it, and forward to FXServer
-tail -f "$FIFO" | $PARSED &
+# Trap exit signals to clean up
+cleanup() {
+    echo -e "FXServer exited. Cleaning up..."
+    rm -f "$FIFO"
+    exit 0
+}
+trap cleanup SIGINT SIGTERM EXIT
 
-# Keep reading from stdin and forward user input into FIFO
-# This allows command input from Pterodactyl to reach the FXServer
-while IFS= read -r line; do
-  echo "$line" > "$FIFO"
+# Start FXServer directly using exec so it replaces the shell process
+tail -f "$FIFO" | sh -c "exec $PARSED" &
+FX_PID=$!
+
+# Input loop
+while kill -0 "$FX_PID" 2>/dev/null; do
+    if read -r -t 1 line; then
+        echo "$line" > "$FIFO"
+    fi
 done
