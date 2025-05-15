@@ -2,8 +2,8 @@ FROM    --platform=$TARGETOS/$TARGETARCH alpine:3.21
 
 LABEL   author="superdarki" maintainer="superdarki@proton.me" org.opencontainers.image.source="https://github.com/superdarki/fivem-alpine-base" 
 
-RUN     addgroup -S container &&\
-        adduser -S -G container -h /home/container -s /bin/ash container
+RUN     addgroup -g 1000 -S container &&\
+        adduser -u 1000 -S -G container -h /home/container -s /bin/ash container
 
 RUN     echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main >>/etc/apk/repositories &&\
         echo http://dl-cdn.alpinelinux.org/alpine/v3.14/main >>/etc/apk/repositories &&\
