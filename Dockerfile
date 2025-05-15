@@ -1,19 +1,13 @@
-FROM    --platform=$TARGETOS/$TARGETARCH alpine:3.16
+FROM    --platform=$TARGETOS/$TARGETARCH alpine:latest
 
 LABEL   author="superdarki" maintainer="superdarki@proton.me"
 
 RUN     adduser -S -h /home/container -s /bin/ash container
 
-RUN     echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main >/etc/apk/repositories &&\
-        echo http://dl-cdn.alpinelinux.org/alpine/v3.14/main >>/etc/apk/repositories &&\
-        echo http://dl-cdn.alpinelinux.org/alpine/v3.16/main >>/etc/apk/repositories &&\
-        echo http://dl-cdn.alpinelinux.org/alpine/v3.16/community >>/etc/apk/repositories &&\
-        echo http://dl-cdn.alpinelinux.org/alpine/edge/main >>/etc/apk/repositories &&\
-        echo http://dl-cdn.alpinelinux.org/alpine/edge/community >>/etc/apk/repositories &&\
-        echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >>/etc/apk/repositories
+RUN     echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main >>/etc/apk/repositories &&\
+        echo http://dl-cdn.alpinelinux.org/alpine/v3.14/main >>/etc/apk/repositories
 
-RUN     apk --no-cache upgrade alpine-keys &&\
-        apk --no-cache add -X https://dl-cdn.alpinelinux.org/alpine/v3.16/main -u alpine-keys
+RUN     apk --no-cache upgrade alpine-keys
 
 RUN     apk --no-cache update &&\
         apk --no-cache upgrade
