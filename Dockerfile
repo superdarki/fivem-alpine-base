@@ -2,8 +2,7 @@ FROM    --platform=$TARGETOS/$TARGETARCH alpine:3.21
 
 LABEL   author="superdarki" maintainer="superdarki@proton.me" org.opencontainers.image.source="https://github.com/superdarki/fivem-alpine-base" 
 
-RUN     addgroup -g 1000 -S container &&\
-        adduser -u 1000 -S -G container -h /home/container -s /bin/ash container
+RUN     adduser -D -h /home/container container
 
 RUN     echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main >>/etc/apk/repositories &&\
         echo http://dl-cdn.alpinelinux.org/alpine/v3.14/main >>/etc/apk/repositories &&\
@@ -24,9 +23,9 @@ RUN     curl --http1.1 -sLo /etc/apk/keys/peachypies@protonmail.ch-5adb3818.rsa.
 RUN     apk del curl &&\
         apk add --no-cache tini curl=7.72.0-r99 libssl1.1 libcrypto1.1 libunwind libstdc++ zlib c-ares v8~=9.3 musl-dbg libatomic
 
-USER    container
-ENV     USER=container HOME=/home/container
-WORKDIR /home/container
+USER        container
+ENV         USER=container HOME=/home/container
+WORKDIR     /home/container
 
 STOPSIGNAL SIGINT
 
