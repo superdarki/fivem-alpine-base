@@ -14,7 +14,7 @@ export INTERNAL_IP
 cd /home/container || exit 1
 
 # Convert all of the "{{VARIABLE}}" parts of the command into their values
-PARSED=$(eval echo "$(echo "$STARTUP" | sed -e 's/{{/${/g' -e 's/}}/}/g')")
+PARSED=$(echo "$STARTUP" | sed -e 's/{{/${/g' -e 's/}}/}/g')
 echo -e "Running start command: $PARSED"
 
 # Create FIFO if it doesn't exist
