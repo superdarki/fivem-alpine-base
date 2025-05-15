@@ -1,6 +1,6 @@
 FROM    --platform=$TARGETOS/$TARGETARCH alpine:3.21
 
-LABEL   author="superdarki" maintainer="superdarki@proton.me"
+LABEL   author="superdarki" maintainer="superdarki@proton.me" org.opencontainers.image.source="https://github.com/superdarki/fivem-alpine-base" 
 
 RUN     adduser -S -h /home/container -s /bin/ash container
 
