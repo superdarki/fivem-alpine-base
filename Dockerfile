@@ -9,7 +9,8 @@ RUN     echo http://dl-cdn.alpinelinux.org/alpine/v3.12/main >>/etc/apk/reposito
         apk --no-cache upgrade alpine-keys &&\
         apk --no-cache update &&\
         apk --no-cache upgrade &&\
-        apk add --no-cache curl ca-certificates
+        apk add --no-cache curl ca-certificates &&\
+        update-ca-certificates
 
 RUN     curl --http1.1 -sLo /etc/apk/keys/peachypies@protonmail.ch-5adb3818.rsa.pub https://runtime.fivem.net/client/alpine/peachypies@protonmail.ch-5adb3818.rsa.pub &&\
         curl -sLo /etc/apk/keys/hydrogen@fivem.net-614370b9.rsa.pub https://mirrors.fivem.net/build/linux/hydrogen@fivem.net-614370b9.rsa.pub &&\
